@@ -1,19 +1,31 @@
 <template>
   <div id="app">
-    <div ref="game-board">I am a game board!Roar!</div>
+    <div ref="game-board">
+      <BoardColumn :has-piece="firstColumnHasPiece" @click="firstColumnHasPiece = true"></BoardColumn>
+      <BoardColumn></BoardColumn>
+      <BoardColumn></BoardColumn>
+      <BoardColumn></BoardColumn>
+      <BoardColumn></BoardColumn>
+      <BoardColumn></BoardColumn>
+      <BoardColumn></BoardColumn>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
+import BoardColumn from "@/components/BoardColumn.vue";
 
 @Component({
   components: {
     HelloWorld,
+    BoardColumn,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  firstColumnHasPiece = false;
+}
 </script>
 
 <style lang="scss">
