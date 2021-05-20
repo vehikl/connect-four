@@ -14,6 +14,18 @@ describe('Connect Four', () => {
 
         expect(wrapper.findAllComponents(BoardColumn)).toHaveLength(7);
     })
+
+
+    it('has 6 pieces slots per column', () => {
+        const wrapper: Wrapper<App> = mount(App);
+
+        const columns = wrapper.findAllComponents(BoardColumn);
+
+        columns.wrappers.forEach((column) => {
+            expect(column.findAllComponents({ref: 'empty-slot'})).toHaveLength(6);
+        });
+    })
+
     it('Clicking on a column drops a piece', async () => {
         const wrapper: Wrapper<App> = mount(App);
         const firstColumn = wrapper.findComponent(BoardColumn);
@@ -30,4 +42,5 @@ describe('Connect Four', () => {
 
         expect(column.findAllComponents({ref: 'piece'})).toHaveLength(0);
     })
+
 });

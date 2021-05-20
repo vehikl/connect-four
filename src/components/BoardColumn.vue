@@ -1,5 +1,6 @@
 <template>
   <div ref="column" class="column" @click="() => $emit('click')">
+    <div v-for="i in 6" :key="i" ref="empty-slot"></div>
     <div v-if="hasPiece" ref="piece">I am a piece!</div>
   </div>
 </template>
