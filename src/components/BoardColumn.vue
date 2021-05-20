@@ -16,7 +16,19 @@ export default class BoardColumn extends Vue {
   private hasPieceInSlotArray: boolean[] = [false, false, false, false, false, false];
 
   columnClick() {
-    this.hasPieceInSlotArray = [true, false, false, false, false, false]
+    let newSlotArray = [...this.hasPieceInSlotArray]
+    for (let i = newSlotArray.length - 1; i >= 0; i--) {
+      if (newSlotArray[i] && i !== 5) {
+        newSlotArray[i + 1] = true;
+        break;
+      }
+
+      if (i === 0) {
+        newSlotArray[0] = true;
+      }
+    }
+
+    this.hasPieceInSlotArray = newSlotArray;
 
   }
 }

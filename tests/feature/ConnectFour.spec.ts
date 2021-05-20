@@ -36,6 +36,17 @@ describe('Connect Four', () => {
         expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(1);
     })
 
+    it('Each column can have up to 6 pieces', async () => {
+        const wrapper: Wrapper<App> = mount(App);
+        const firstColumn = wrapper.findComponent(BoardColumn);
+
+        for (let i = 0; i < 50; i++) {
+            firstColumn.trigger('click');
+        }
+        await wrapper.vm.$nextTick();
+        expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(6);
+    });
+
     it('starts with no pieces at the columns', () => {
         const wrapper: Wrapper<App> = mount(App);
         const column = wrapper.findComponent(BoardColumn);
