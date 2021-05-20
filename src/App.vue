@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div ref="game-board">
+    <div ref="game-board" class="game-board">
       <BoardColumn :has-piece="firstColumnHasPiece"></BoardColumn>
       <BoardColumn></BoardColumn>
       <BoardColumn></BoardColumn>
@@ -29,4 +29,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+.game-board {
+  display: flex;
+}
 </style>

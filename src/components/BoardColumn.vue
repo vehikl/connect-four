@@ -1,6 +1,8 @@
 <template>
   <div ref="column" class="column" @click="columnClick">
     <div v-for="(hasPieceInSlot, index) in hasPieceInSlotArray" :key="index"
+         :class="{'slot-with-piece': hasPieceInSlot, 'empty-slot': !hasPieceInSlot}"
+         class="slot"
          :ref="hasPieceInSlot ? 'piece' : 'empty-slot'">
       {{ hasPieceInSlot ? 'X' : '' }}
     </div>
@@ -37,9 +39,26 @@ export default class BoardColumn extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .column {
-  width: 200px;
-  height: 60px;
-  border-style: solid
+  border-style: solid;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
+.slot {
+  height: 5rem;
+  width: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.slot-with-piece {
+  background-color: green;
+}
+
+.empty-slot {
+  background-color: gray;
+}
 </style>
