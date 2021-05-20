@@ -1,7 +1,6 @@
 <template>
   <div ref="column" class="column" @click="() => $emit('click')">
     <div v-if="hasPiece" ref="piece">I am a piece!</div>
-    <div v-if="!hasPiece" ref="piece">I am not a piece!</div>
   </div>
 </template>
 
