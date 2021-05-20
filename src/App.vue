@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div ref="game-board">
-      <BoardColumn :has-piece="firstColumnHasPiece" @click="firstColumnHasPiece = true"></BoardColumn>
+      <BoardColumn :has-piece="firstColumnHasPiece"></BoardColumn>
       <BoardColumn></BoardColumn>
       <BoardColumn></BoardColumn>
       <BoardColumn></BoardColumn>

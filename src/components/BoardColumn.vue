@@ -1,7 +1,9 @@
 <template>
-  <div ref="column" class="column" @click="() => $emit('click')">
-    <div v-for="i in 6" :key="i" ref="empty-slot"></div>
-    <div v-if="hasPiece" ref="piece">I am a piece!</div>
+  <div ref="column" class="column" @click="columnClick">
+    <div v-for="(hasPieceInSlot, index) in hasPieceInSlotArray" :key="index"
+         :ref="hasPieceInSlot ? 'piece' : 'empty-slot'">
+      {{ hasPieceInSlot ? 'X' : '' }}
+    </div>
   </div>
 </template>
 
@@ -11,6 +13,12 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 @Component
 export default class BoardColumn extends Vue {
   @Prop({default: false}) public hasPiece!: boolean;
+  private hasPieceInSlotArray: boolean[] = [false, false, false, false, false, false];
+
+  columnClick() {
+    this.hasPieceInSlotArray = [true, false, false, false, false, false]
+
+  }
 }
 </script>
 
