@@ -2,13 +2,13 @@
   <div id="app">
     <p v-if="isGameOver">You won!</p>
     <div ref="game-board" class="game-board">
-      <BoardColumn :has-piece="firstColumnHasPiece" @game-over="isGameOver = true"></BoardColumn>
-      <BoardColumn></BoardColumn>
-      <BoardColumn></BoardColumn>
-      <BoardColumn></BoardColumn>
-      <BoardColumn></BoardColumn>
-      <BoardColumn></BoardColumn>
-      <BoardColumn></BoardColumn>
+      <BoardColumn @game-over="isGameOver = true"></BoardColumn>
+      <BoardColumn @game-over="isGameOver = true"></BoardColumn>
+      <BoardColumn @game-over="isGameOver = true"></BoardColumn>
+      <BoardColumn @game-over="isGameOver = true"></BoardColumn>
+      <BoardColumn @game-over="isGameOver = true"></BoardColumn>
+      <BoardColumn @game-over="isGameOver = true"></BoardColumn>
+      <BoardColumn @game-over="isGameOver = true"></BoardColumn>
     </div>
   </div>
 </template>
@@ -23,7 +23,6 @@ import BoardColumn from "@/components/BoardColumn.vue";
   },
 })
 export default class App extends Vue {
-  firstColumnHasPiece = false;
   isGameOver = false;
 }
 </script>

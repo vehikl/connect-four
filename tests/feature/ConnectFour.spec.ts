@@ -56,20 +56,28 @@ describe('Connect Four', () => {
 
     describe('game ending scenarios', function () {
 
-        it('ends as soon as four pieces are vertically stacked', async () => {
+        it.each([
+            [0],
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [6]
+        ])("ends as soon as four pieces are vertically stacked in column %d", async (columnIndex) => {
             const wrapper: Wrapper<App> = mount(App);
-            const firstColumn = wrapper.findComponent(BoardColumn);
+            const secondColumn = wrapper.findAllComponents(BoardColumn).at(columnIndex);
 
             for (let i = 0; i < 3; i++) {
-                firstColumn.trigger('click');
+                secondColumn.trigger('click');
             }
 
             await wrapper.vm.$nextTick();
 
             expect(wrapper.text()).not.toContain('You won!');
-            firstColumn.trigger('click');
+            secondColumn.trigger('click');
             await wrapper.vm.$nextTick();
             expect(wrapper.text()).toContain('You won!');
-        });
+        })
     });
 });
