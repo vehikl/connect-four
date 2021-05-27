@@ -1,6 +1,6 @@
 <template>
-  <div ref="column" class="column" @click="onClick">
-    <div v-for="(hasPieceInSlot, index) in hasPieceInSlotArray" :key="index"
+  <div ref="column" class="column" @click="$emit('click')">
+    <div v-for="(hasPieceInSlot, index) in pieces" :key="index"
          :class="{'slot-with-piece': hasPieceInSlot, 'empty-slot': !hasPieceInSlot}"
          class="slot"
          :ref="hasPieceInSlot ? 'piece' : 'empty-slot'">
@@ -14,34 +14,8 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 
 @Component
 export default class BoardColumn extends Vue {
-  @Prop({default: false}) public hasPiece!: boolean;
+  @Prop({required: true}) public pieces!: boolean[];
   private hasPieceInSlotArray: boolean[] = [false, false, false, false, false, false];
-
-  onClick() {
-    let newSlotArray = [...this.hasPieceInSlotArray]
-    for (let i = newSlotArray.length - 1; i >= 0; i--) {
-      if (newSlotArray[i] && i !== 5) {
-        newSlotArray[i + 1] = true;
-        break;
-      }
-
-      if (i === 0) {
-        newSlotArray[0] = true;
-      }
-    }
-
-    this.hasPieceInSlotArray = newSlotArray;
-
-    if (this.didWeWin()) {
-      this.$emit('game-over');
-    }
-
-  }
-
-  didWeWin(): boolean {
-    let NUMBER_OF_PIECES_TO_WIN = 4;
-    return this.hasPieceInSlotArray.filter((hasPiece) => hasPiece).length === NUMBER_OF_PIECES_TO_WIN;
-  }
 }
 </script>
 
