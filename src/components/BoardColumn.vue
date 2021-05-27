@@ -55,19 +55,23 @@ export default class BoardColumn extends Vue {
 }
 
 .slot-with-piece {
-  animation: .5s flip;
-  animation-fill-mode: forwards;
+  animation: .5s flip forwards;
 }
 
 @keyframes flip {
   0% {
     transform: rotateY(0);
+    background-color: gray;
+    color: transparent;
   }
   50% {
     transform: rotateY(90deg);
+    background-color: gray;
+    color: transparent;
   }
   51% {
     background-color: green;
+    color: black;
   }
   100% {
     transform: rotateY(180deg);
