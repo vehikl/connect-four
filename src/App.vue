@@ -14,12 +14,10 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
 import BoardColumn from "@/components/BoardColumn.vue";
 
 @Component({
   components: {
-    HelloWorld,
     BoardColumn,
   },
 })
