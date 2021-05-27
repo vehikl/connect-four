@@ -1,7 +1,8 @@
 <template>
   <div id="app">
+    <p v-if="isGameOver">You won!</p>
     <div ref="game-board" class="game-board">
-      <BoardColumn :has-piece="firstColumnHasPiece"></BoardColumn>
+      <BoardColumn :has-piece="firstColumnHasPiece" @game-over="isGameOver = true"></BoardColumn>
       <BoardColumn></BoardColumn>
       <BoardColumn></BoardColumn>
       <BoardColumn></BoardColumn>
@@ -23,6 +24,7 @@ import BoardColumn from "@/components/BoardColumn.vue";
 })
 export default class App extends Vue {
   firstColumnHasPiece = false;
+  isGameOver = false;
 }
 </script>
 

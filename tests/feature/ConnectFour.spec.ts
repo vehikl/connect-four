@@ -54,4 +54,22 @@ describe('Connect Four', () => {
         expect(column.findAllComponents({ref: 'piece'})).toHaveLength(0);
     })
 
+    describe('game ending scenarios', function () {
+
+        it('ends as soon as four pieces are vertically stacked', async () => {
+            const wrapper: Wrapper<App> = mount(App);
+            const firstColumn = wrapper.findComponent(BoardColumn);
+
+            for (let i = 0; i < 3; i++) {
+                firstColumn.trigger('click');
+            }
+
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.text()).not.toContain('You won!');
+            firstColumn.trigger('click');
+            await wrapper.vm.$nextTick();
+            expect(wrapper.text()).toContain('You won!');
+        });
+    });
 });

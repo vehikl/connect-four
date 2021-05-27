@@ -1,5 +1,5 @@
 <template>
-  <div ref="column" class="column" @click="columnClick">
+  <div ref="column" class="column" @click="onClick">
     <div v-for="(hasPieceInSlot, index) in hasPieceInSlotArray" :key="index"
          :class="{'slot-with-piece': hasPieceInSlot, 'empty-slot': !hasPieceInSlot}"
          class="slot"
@@ -17,7 +17,7 @@ export default class BoardColumn extends Vue {
   @Prop({default: false}) public hasPiece!: boolean;
   private hasPieceInSlotArray: boolean[] = [false, false, false, false, false, false];
 
-  columnClick() {
+  onClick() {
     let newSlotArray = [...this.hasPieceInSlotArray]
     for (let i = newSlotArray.length - 1; i >= 0; i--) {
       if (newSlotArray[i] && i !== 5) {
@@ -32,6 +32,15 @@ export default class BoardColumn extends Vue {
 
     this.hasPieceInSlotArray = newSlotArray;
 
+    if (this.didWeWin()) {
+      this.$emit('game-over');
+    }
+
+  }
+
+  didWeWin(): boolean {
+    let NUMBER_OF_PIECES_TO_WIN = 4;
+    return this.hasPieceInSlotArray.filter((hasPiece) => hasPiece).length === NUMBER_OF_PIECES_TO_WIN;
   }
 }
 </script>
