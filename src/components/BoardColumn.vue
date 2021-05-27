@@ -55,7 +55,7 @@ export default class BoardColumn extends Vue {
 }
 
 .slot-with-piece {
-  animation: .5s flip forwards;
+  animation: 500ms flip forwards;
 }
 
 @keyframes flip {
@@ -70,7 +70,7 @@ export default class BoardColumn extends Vue {
     color: transparent;
   }
   51% {
-    background-color: green;
+    background-color: greenyellow;
     color: black;
   }
   100% {
