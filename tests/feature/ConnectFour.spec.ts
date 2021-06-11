@@ -50,6 +50,22 @@ describe('Connect Four', () => {
         expect(column.findAllComponents({ref: 'piece'})).toHaveLength(0);
     })
 
+    it('reset the board by changing all pieces to grey when the reset button is clicked', async () => {
+        const firstColumn = wrapper.findComponent(BoardColumn);
+
+        firstColumn.trigger('click');
+        await wrapper.vm.$nextTick();
+
+        expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(1);
+
+        const resetButton = wrapper.findComponent({ref: 'reset'});
+
+        resetButton.trigger('click');
+        await wrapper.vm.$nextTick();
+
+        expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(0);
+    })
+
     describe('game ending scenarios', function () {
 
         it.each([
@@ -89,5 +105,25 @@ describe('Connect Four', () => {
             await wrapper.vm.$nextTick();
             expect(wrapper.text()).toContain('You won!');
         });
+
+        it('will end the game when four pieces are detected to each other diagonally', async () => {
+            const columns = wrapper.findAllComponents(BoardColumn).wrappers.slice(0, 4);
+
+            for (let i = 0; i < columns.length - 1; i++) {
+                columns[i].trigger('click');
+            }
+            await wrapper.vm.$nextTick();
+            for (let i = 1; i < columns.length - 1; i++) {
+                columns[i].trigger('click');
+            }
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.text()).not.toContain('You won!');
+
+            columns[columns.length - 1].trigger('click');
+
+            await wrapper.vm.$nextTick();
+            expect(wrapper.text()).toContain('You won!');
+        })
     });
 });

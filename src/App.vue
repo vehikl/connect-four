@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <button ref="reset" @click="resetBoard">reset</button>
     <p v-if="isGameOver">You won!</p>
     <div ref="game-board" class="game-board">
       <BoardColumn v-for="(pieces, index) in piecesMatrix" :key="index" :pieces="pieces"
@@ -44,6 +45,14 @@ export default class App extends Vue {
 
   }
 
+  resetBoard() {
+    this.piecesMatrix = Array.from({length: 7}, () => [false, false, false, false, false, false]);
+  }
+
+  mounted() {
+    this.resetBoard()
+  }
+
   private checkForWinCondition(currentColumn: number) {
     //Check for vertical win
     this.isGameOver = this.piecesMatrix[currentColumn].filter((hasPiece) => hasPiece).length === this.NUMBER_OF_PIECES_TO_WIN;
@@ -72,10 +81,8 @@ export default class App extends Vue {
       }
     }
     this.isGameOver = piecesInARow == 4;
-  }
 
-  mounted() {
-    this.piecesMatrix = Array.from({length: 7}, () => [false, false, false, false, false, false]);
+    // need diagonal condition next.
   }
 }
 </script>
