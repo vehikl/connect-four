@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <button ref="reset" @click="resetBoard">reset</button>
-    <p v-if="isGameOver">You won!</p>
+    <div v-if="isGameOver">
+      <button ref="reset" @click="resetBoard">reset</button>
+      <p>You won!</p>
+    </div>
     <div ref="game-board" class="game-board">
       <BoardColumn v-for="(pieces, index) in piecesMatrix" :key="index" :pieces="pieces"
                    @click="() => handleClick(index)" @game-over="isGameOver = true"></BoardColumn>

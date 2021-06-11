@@ -71,6 +71,21 @@ describe('Connect Four', () => {
 
             expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(0);
         })
+
+        it('only renders when the game is over', async () => {
+            const finishTheGame = async () => {
+                const NUMBER_OF_CLICKS_TO_END_THE_GAME = 4;
+                for (let i = 0; i < NUMBER_OF_CLICKS_TO_END_THE_GAME; i++) {
+                    wrapper.findComponent(BoardColumn).trigger('click');
+                }
+                await wrapper.vm.$nextTick();
+            }
+            expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(false);
+            await finishTheGame();
+            expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(true);
+        });
+
+
     });
 
 
