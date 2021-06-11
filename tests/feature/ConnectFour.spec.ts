@@ -54,14 +54,19 @@ describe('Connect Four', () => {
         const firstColumn = wrapper.findComponent(BoardColumn);
 
         firstColumn.trigger('click');
+        firstColumn.trigger('click');
+        firstColumn.trigger('click');
+        firstColumn.trigger('click');
         await wrapper.vm.$nextTick();
 
-        expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(1);
+        expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(4);
 
         const resetButton = wrapper.findComponent({ref: 'reset'});
 
         resetButton.trigger('click');
         await wrapper.vm.$nextTick();
+
+        expect(wrapper.text()).not.toContain('You won!');
 
         expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(0);
     })

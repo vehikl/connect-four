@@ -42,10 +42,10 @@ export default class App extends Vue {
 
     this.piecesMatrix = JSON.parse(JSON.stringify(this.piecesMatrix));
     this.checkForWinCondition(currentColumn);
-
   }
 
   resetBoard() {
+    this.isGameOver = false;
     this.piecesMatrix = Array.from({length: 7}, () => [false, false, false, false, false, false]);
   }
 
