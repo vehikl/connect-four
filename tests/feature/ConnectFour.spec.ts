@@ -75,7 +75,7 @@ describe('Connect Four', () => {
             expect(wrapper.text()).toContain('You won!');
         });
 
-        it.skip('will end the game when four pieces are detected next to each other horizontally', async () => {
+        it('will end the game when four pieces are detected next to each other horizontally', async () => {
             const columns = wrapper.findAllComponents(BoardColumn).wrappers.slice(0, 4);
 
             for (let i = 0; i < columns.length - 1; i++) {

@@ -19,11 +19,11 @@ import BoardColumn from "@/components/BoardColumn.vue";
 })
 export default class App extends Vue {
   isGameOver = false;
-  piecesMatrix: boolean[][] = []
+  piecesMatrix: boolean[][] = [];
+  readonly NUMBER_OF_PIECES_TO_WIN = 4;
 
-  handleClick(index: number) {
-
-    let newSlotArray = [...this.piecesMatrix[index]];
+  handleClick(currentColumn: number) {
+    let newSlotArray = [...this.piecesMatrix[currentColumn]];
     for (let i = newSlotArray.length - 1; i >= 0; i--) {
       if (newSlotArray[i] && i !== 5) {
         newSlotArray[i + 1] = true;
@@ -35,15 +35,43 @@ export default class App extends Vue {
       }
     }
 
-    for (let i = 0; i < this.piecesMatrix[index].length; i++) {
-      this.piecesMatrix[index][i] = newSlotArray[i];
+    for (let i = 0; i < this.piecesMatrix[currentColumn].length; i++) {
+      this.piecesMatrix[currentColumn][i] = newSlotArray[i];
     }
 
     this.piecesMatrix = JSON.parse(JSON.stringify(this.piecesMatrix));
+    this.checkForWinCondition(currentColumn);
 
-    let NUMBER_OF_PIECES_TO_WIN = 4;
-    this.isGameOver = this.piecesMatrix[index].filter((hasPiece) => hasPiece).length === NUMBER_OF_PIECES_TO_WIN;
+  }
 
+  private checkForWinCondition(currentColumn: number) {
+    //Check for vertical win
+    this.isGameOver = this.piecesMatrix[currentColumn].filter((hasPiece) => hasPiece).length === this.NUMBER_OF_PIECES_TO_WIN;
+    if (this.isGameOver) {
+      return;
+    }
+
+    let currentRow = 0;
+    const numberOfRows = 6;
+    const numberOfColumns = 7;
+    for (currentRow = 0; currentRow < numberOfRows; currentRow++) {
+      if (this.piecesMatrix[currentColumn][currentRow]) {
+        break;
+      }
+    }
+
+    let piecesInARow = 0;
+    for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+      if (this.piecesMatrix[columnIndex][currentRow]) {
+        piecesInARow++;
+        if (piecesInARow == 4) {
+          break;
+        }
+      } else {
+        piecesInARow = 0;
+      }
+    }
+    this.isGameOver = piecesInARow == 4;
   }
 
   mounted() {
