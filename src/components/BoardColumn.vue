@@ -15,7 +15,6 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 @Component
 export default class BoardColumn extends Vue {
   @Prop({required: true}) public pieces!: boolean[];
-  private hasPieceInSlotArray: boolean[] = [false, false, false, false, false, false];
 }
 </script>
 
