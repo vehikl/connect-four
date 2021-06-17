@@ -14,6 +14,8 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import BoardColumn from "@/components/BoardColumn.vue";
+import {BoardPiece} from "@/types";
+
 
 @Component({
   components: {
@@ -22,19 +24,20 @@ import BoardColumn from "@/components/BoardColumn.vue";
 })
 export default class App extends Vue {
   isGameOver = false;
-  piecesMatrix: boolean[][] = [];
+  piecesMatrix: BoardPiece[][] = [];
+
   readonly NUMBER_OF_PIECES_TO_WIN = 4;
 
   handleClick(currentColumn: number) {
     let newSlotArray = [...this.piecesMatrix[currentColumn]];
     for (let i = newSlotArray.length - 1; i >= 0; i--) {
-      if (newSlotArray[i] && i !== 5) {
-        newSlotArray[i + 1] = true;
+      if (newSlotArray[i] === BoardPiece.Red && i !== 5) {
+        newSlotArray[i + 1] = BoardPiece.Red;
         break;
       }
 
       if (i === 0) {
-        newSlotArray[0] = true;
+        newSlotArray[0] = BoardPiece.Red;
       }
     }
 
@@ -48,7 +51,7 @@ export default class App extends Vue {
 
   resetBoard() {
     this.isGameOver = false;
-    this.piecesMatrix = Array.from({length: 7}, () => [false, false, false, false, false, false]);
+    this.piecesMatrix = Array.from({length: 7}, () => [BoardPiece.None, BoardPiece.None, BoardPiece.None, BoardPiece.None, BoardPiece.None, BoardPiece.None]);
   }
 
   mounted() {
@@ -57,7 +60,7 @@ export default class App extends Vue {
 
   private checkForWinCondition(currentColumn: number) {
     //Check for vertical win
-    this.isGameOver = this.piecesMatrix[currentColumn].filter((hasPiece) => hasPiece).length === this.NUMBER_OF_PIECES_TO_WIN;
+    this.isGameOver = this.piecesMatrix[currentColumn].filter((pieceType) => pieceType === BoardPiece.Red).length === this.NUMBER_OF_PIECES_TO_WIN;
     if (this.isGameOver) {
       return;
     }
@@ -66,14 +69,14 @@ export default class App extends Vue {
     const numberOfRows = 6;
     const numberOfColumns = 7;
     for (currentRow = 0; currentRow < numberOfRows; currentRow++) {
-      if (this.piecesMatrix[currentColumn][currentRow]) {
+      if (this.piecesMatrix[currentColumn][currentRow] !== BoardPiece.None) {
         break;
       }
     }
 
     let piecesInARow = 0;
     for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
-      if (this.piecesMatrix[columnIndex][currentRow]) {
+      if (this.piecesMatrix[columnIndex][currentRow] !== BoardPiece.None) {
         piecesInARow++;
         if (piecesInARow == 4) {
           break;

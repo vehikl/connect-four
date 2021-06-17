@@ -1,20 +1,22 @@
 <template>
   <div ref="column" class="column" @click="$emit('click')">
-    <div v-for="(hasPieceInSlot, index) in pieces" :key="index"
-         :class="{'slot-with-piece': hasPieceInSlot, 'empty-slot': !hasPieceInSlot}"
+    <div v-for="(pieceType, index) in pieces" :key="index"
+         :ref="pieceType === BoardPiece.Red ? 'piece' : 'empty-slot'"
          class="slot"
-         :ref="hasPieceInSlot ? 'piece' : 'empty-slot'">
-      {{ hasPieceInSlot ? 'X' : '' }}
+         :class="{'slot-with-piece': pieceType === BoardPiece.Red, 'empty-slot': pieceType === BoardPiece.None}">
+      {{ pieceType === BoardPiece.Red ? 'X' : '' }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator';
+import {BoardPiece} from "@/types";
 
 @Component
 export default class BoardColumn extends Vue {
   @Prop({required: true}) public pieces!: boolean[];
+  public BoardPiece: BoardPiece = BoardPiece;
 }
 </script>
 
@@ -52,12 +54,12 @@ export default class BoardColumn extends Vue {
     color: transparent;
   }
   51% {
-    background-color: greenyellow;
+    background-color: orangered;
     color: black;
   }
   100% {
     transform: rotateY(180deg);
-    background-color: green;
+    background-color: red;
   }
 }
 
