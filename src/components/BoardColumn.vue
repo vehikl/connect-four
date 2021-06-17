@@ -1,7 +1,7 @@
 <template>
   <div ref="column" class="column" @click="$emit('click')">
     <div v-for="(pieceType, index) in pieces" :key="index"
-         :ref="pieceType === BoardPiece.Red ? 'piece' : 'empty-slot'"
+         :ref="pieceType === BoardPiece.Red ? 'red-piece' : 'empty-slot'"
          class="slot"
          :class="{'slot-with-piece': pieceType === BoardPiece.Red, 'empty-slot': pieceType === BoardPiece.None}">
       {{ pieceType === BoardPiece.Red ? 'X' : '' }}

@@ -31,7 +31,7 @@ describe('Connect Four', () => {
         firstColumn.trigger('click');
         await wrapper.vm.$nextTick();
 
-        expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(1);
+        expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
     })
 
     it('Each column can have up to 6 pieces', async () => {
@@ -41,13 +41,13 @@ describe('Connect Four', () => {
             firstColumn.trigger('click');
         }
         await wrapper.vm.$nextTick();
-        expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(6);
+        expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(6);
     });
 
     it('starts with no pieces at the columns', () => {
         const column = wrapper.findComponent(BoardColumn);
 
-        expect(column.findAllComponents({ref: 'piece'})).toHaveLength(0);
+        expect(column.findAllComponents({ref: 'red-piece'})).toHaveLength(0);
     })
 
     describe('the reset button', () => {
@@ -60,7 +60,7 @@ describe('Connect Four', () => {
             firstColumn.trigger('click');
             await wrapper.vm.$nextTick();
 
-            expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(4);
+            expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(4);
 
             const resetButton = wrapper.findComponent({ref: 'reset'});
 
@@ -69,7 +69,7 @@ describe('Connect Four', () => {
 
             expect(wrapper.text()).not.toContain('You won!');
 
-            expect(firstColumn.findAllComponents({ref: 'piece'})).toHaveLength(0);
+            expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(0);
         })
 
         it('only renders when the game is over', async () => {
@@ -148,5 +148,25 @@ describe('Connect Four', () => {
             await wrapper.vm.$nextTick();
             expect(wrapper.text()).toContain('You won!');
         })
+    });
+
+
+    describe('Multiplayer Experience', () => {
+        it.skip('alternates the players turns', async () => {
+                const firstColumn = wrapper.findComponent(BoardColumn);
+                expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(0);
+                expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
+
+                firstColumn.trigger('click');
+                await wrapper.vm.$nextTick();
+                expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
+                expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
+
+                firstColumn.trigger('click');
+                await wrapper.vm.$nextTick();
+                expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
+                expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(1);
+            }
+        );
     });
 });
