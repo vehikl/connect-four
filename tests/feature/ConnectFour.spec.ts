@@ -53,40 +53,46 @@ describe('Connect Four', () => {
 
     describe('the reset button', () => {
         it('resets the board by changing all pieces to grey when clicked', async () => {
-            const firstColumn = wrapper.findComponent(BoardColumn);
+            const columns = wrapper.findAllComponents(BoardColumn);
 
-            firstColumn.trigger('click');
-            firstColumn.trigger('click');
-            firstColumn.trigger('click');
-            firstColumn.trigger('click');
+            columns.at(0).trigger('click');
+            columns.at(1).trigger('click');
+            columns.at(0).trigger('click');
+            columns.at(1).trigger('click');
+            columns.at(0).trigger('click');
+            columns.at(1).trigger('click');
+            columns.at(0).trigger('click');
             await wrapper.vm.$nextTick();
 
-            expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(4);
+            expect(columns.at(0).findAllComponents({ref: 'red-piece'})).toHaveLength(4);
 
             const resetButton = wrapper.findComponent({ref: 'reset'});
-
             resetButton.trigger('click');
             await wrapper.vm.$nextTick();
 
             expect(wrapper.text()).not.toContain('You won!');
 
-            expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(0);
+            const pieceCount = columns.at(0).findAllComponents({ref: 'red-piece'}).length + columns.at(1).findAllComponents({ref: 'yellow-piece'}).length
+            expect(pieceCount).toBe(0);
         })
 
         it('only renders when the game is over', async () => {
             const finishTheGame = async () => {
-                const NUMBER_OF_CLICKS_TO_END_THE_GAME = 4;
-                for (let i = 0; i < NUMBER_OF_CLICKS_TO_END_THE_GAME; i++) {
-                    wrapper.findComponent(BoardColumn).trigger('click');
-                }
+                const columns = wrapper.findAllComponents(BoardColumn);
+
+                columns.at(0).trigger('click');
+                columns.at(1).trigger('click');
+                columns.at(0).trigger('click');
+                columns.at(1).trigger('click');
+                columns.at(0).trigger('click');
+                columns.at(1).trigger('click');
+                columns.at(0).trigger('click');
                 await wrapper.vm.$nextTick();
             }
             expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(false);
             await finishTheGame();
             expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(true);
         });
-
-
     });
 
 
@@ -101,16 +107,18 @@ describe('Connect Four', () => {
             [5],
             [6]
         ])("ends as soon as four pieces are vertically stacked in column %d", async (columnIndex) => {
-            const secondColumn = wrapper.findAllComponents(BoardColumn).at(columnIndex);
+            const winningColumn = wrapper.findAllComponents(BoardColumn).at(columnIndex);
+            const nonWinningColumn = wrapper.findAllComponents(BoardColumn).at(columnIndex < 6 ? columnIndex + 1 : 0)
 
             for (let i = 0; i < 3; i++) {
-                secondColumn.trigger('click');
+                winningColumn.trigger('click');
+                nonWinningColumn.trigger('click');
             }
 
             await wrapper.vm.$nextTick();
 
             expect(wrapper.text()).not.toContain('You won!');
-            secondColumn.trigger('click');
+            winningColumn.trigger('click');
             await wrapper.vm.$nextTick();
             expect(wrapper.text()).toContain('You won!');
         });
