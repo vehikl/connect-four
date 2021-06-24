@@ -23,21 +23,26 @@ import {BoardPiece} from "@/types";
   },
 })
 export default class App extends Vue {
+  turnNumber = 0;
   isGameOver = false;
   piecesMatrix: BoardPiece[][] = [];
 
   readonly NUMBER_OF_PIECES_TO_WIN = 4;
 
+  get pieceOfTheTurn(): BoardPiece {
+    return this.turnNumber % 2 === 0 ? BoardPiece.Red : BoardPiece.Yellow;
+  }
+
   handleClick(currentColumn: number) {
     let newSlotArray = [...this.piecesMatrix[currentColumn]];
     for (let i = newSlotArray.length - 1; i >= 0; i--) {
-      if (newSlotArray[i] === BoardPiece.Red && i !== 5) {
-        newSlotArray[i + 1] = BoardPiece.Red;
+      if (newSlotArray[i] !== BoardPiece.None && i !== 5) {
+        newSlotArray[i + 1] = this.pieceOfTheTurn;
         break;
       }
 
       if (i === 0) {
-        newSlotArray[0] = BoardPiece.Red;
+        newSlotArray[0] = this.pieceOfTheTurn;
       }
     }
 
@@ -47,6 +52,7 @@ export default class App extends Vue {
 
     this.piecesMatrix = JSON.parse(JSON.stringify(this.piecesMatrix));
     this.checkForWinCondition(currentColumn);
+    this.turnNumber++;
   }
 
   resetBoard() {
@@ -60,7 +66,7 @@ export default class App extends Vue {
 
   private checkForWinCondition(currentColumn: number) {
     //Check for vertical win
-    this.isGameOver = this.piecesMatrix[currentColumn].filter((pieceType) => pieceType === BoardPiece.Red).length === this.NUMBER_OF_PIECES_TO_WIN;
+    this.isGameOver = this.piecesMatrix[currentColumn].filter((pieceType) => pieceType === this.pieceOfTheTurn).length === this.NUMBER_OF_PIECES_TO_WIN;
     if (this.isGameOver) {
       return;
     }

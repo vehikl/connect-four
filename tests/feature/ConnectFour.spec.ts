@@ -41,7 +41,8 @@ describe('Connect Four', () => {
             firstColumn.trigger('click');
         }
         await wrapper.vm.$nextTick();
-        expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(6);
+        const pieceCount = firstColumn.findAllComponents({ref: 'red-piece'}).length + firstColumn.findAllComponents({ref: 'yellow-piece'}).length
+        expect(pieceCount).toBe(6);
     });
 
     it('starts with no pieces at the columns', () => {
@@ -152,17 +153,17 @@ describe('Connect Four', () => {
 
 
     describe('Multiplayer Experience', () => {
-        it.skip('alternates the players turns', async () => {
-                const firstColumn = wrapper.findComponent(BoardColumn);
-                expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(0);
-                expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
+        it('alternates the players turns', async () => {
+            const firstColumn = wrapper.findComponent(BoardColumn);
+            expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(0);
+            expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
 
-                firstColumn.trigger('click');
-                await wrapper.vm.$nextTick();
-                expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
-                expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
+            firstColumn.trigger('click');
+            await wrapper.vm.$nextTick();
+            expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
+            expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
 
-                firstColumn.trigger('click');
+            firstColumn.trigger('click');
                 await wrapper.vm.$nextTick();
                 expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
                 expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(1);
