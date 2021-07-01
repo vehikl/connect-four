@@ -1,6 +1,7 @@
 import {mount, Wrapper} from "@vue/test-utils";
 import App from "@/App.vue";
 import BoardColumn from "@/components/BoardColumn.vue";
+import GameRender from "@/components/GameRender.vue";
 
 describe('Connect Four', () => {
     let wrapper: Wrapper<App>;
@@ -9,7 +10,7 @@ describe('Connect Four', () => {
         await wrapper.vm.$nextTick();
     })
     it('Has a board', () => {
-        expect(wrapper.findComponent({ref: 'game-board'}).exists()).toBe(true);
+        expect(wrapper.findComponent(GameRender).findComponent({ref: 'game-board'}).exists()).toBe(true);
     });
 
     it('Has 7 columns on the board', () => {
@@ -66,7 +67,7 @@ describe('Connect Four', () => {
 
             expect(columns.at(0).findAllComponents({ref: 'red-piece'})).toHaveLength(4);
 
-            const resetButton = wrapper.findComponent({ref: 'reset'});
+            const resetButton = wrapper.findComponent(GameRender).findComponent({ref: 'reset'});
             resetButton.trigger('click');
             await wrapper.vm.$nextTick();
 
@@ -89,9 +90,9 @@ describe('Connect Four', () => {
                 columns.at(0).trigger('click');
                 await wrapper.vm.$nextTick();
             }
-            expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(false);
+            expect(wrapper.findComponent(GameRender).findComponent({ref: 'reset'}).exists()).toBe(false);
             await finishTheGame();
-            expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(true);
+            expect(wrapper.findComponent(GameRender).findComponent({ref: 'reset'}).exists()).toBe(true);
         });
     });
 
@@ -188,7 +189,7 @@ describe('Connect Four', () => {
             }
             redColumn.trigger('click');
             await wrapper.vm.$nextTick();
-            wrapper.findComponent({ref: 'reset'}).trigger('click');
+            wrapper.findComponent(GameRender).findComponent({ref: 'reset'}).trigger('click');
             redColumn.trigger('click');
             await wrapper.vm.$nextTick();
             expect(redColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
