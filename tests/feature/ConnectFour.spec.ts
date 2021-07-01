@@ -167,15 +167,31 @@ describe('Connect Four', () => {
             expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
 
             firstColumn.trigger('click');
-            await wrapper.vm.$nextTick();
-            expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
-            expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
+                await wrapper.vm.$nextTick();
+                expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
+                expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(0);
 
-            firstColumn.trigger('click');
+                firstColumn.trigger('click');
                 await wrapper.vm.$nextTick();
                 expect(firstColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
                 expect(firstColumn.findAllComponents({ref: 'yellow-piece'})).toHaveLength(1);
             }
         );
+
+        it('will always start the game with the red piece on reset', async () => {
+            const redColumn = wrapper.findAllComponents(BoardColumn).at(0);
+            const yellowColumn = wrapper.findAllComponents(BoardColumn).at(1);
+
+            for (let i = 0; i < 3; i++) {
+                redColumn.trigger('click');
+                yellowColumn.trigger('click');
+            }
+            redColumn.trigger('click');
+            await wrapper.vm.$nextTick();
+            wrapper.findComponent({ref: 'reset'}).trigger('click');
+            redColumn.trigger('click');
+            await wrapper.vm.$nextTick();
+            expect(redColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
+        });
     });
 });

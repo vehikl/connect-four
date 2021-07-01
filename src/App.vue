@@ -57,6 +57,7 @@ export default class App extends Vue {
 
   resetBoard() {
     this.isGameOver = false;
+    this.turnNumber = 0;
     this.piecesMatrix = Array.from({length: 7}, () => [BoardPiece.None, BoardPiece.None, BoardPiece.None, BoardPiece.None, BoardPiece.None, BoardPiece.None]);
   }
 
