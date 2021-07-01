@@ -21,4 +21,9 @@ describe('Connect Four', () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.findComponent(GameRender).exists()).toBe(true);
     });
+
+    it('has two input boxes', () => {
+        expect(wrapper.findComponent({ref: 'name1-box'}).exists()).toBe(true);
+        expect(wrapper.findComponent({ref: 'name2-box'}).exists()).toBe(true);
+    })
 });
