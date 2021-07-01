@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-   <GameRender/>
+    <GameRender v-if="hasGameStarted"/>
+
+    <button ref="start-button" @click="hasGameStarted = true">Start Game</button>
   </div>
 </template>
 
@@ -17,7 +19,7 @@ import GameRender from "@/components/GameRender.vue";
   },
 })
 export default class App extends Vue {
-
+  hasGameStarted = false;
 }
 </script>
 

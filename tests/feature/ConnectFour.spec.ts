@@ -9,6 +9,20 @@ describe('Connect Four', () => {
         wrapper = mount(App);
         await wrapper.vm.$nextTick();
     })
+
+    describe('Before the Game Starts', () => {
+        it('Does not render the game yet', () => {
+            expect(wrapper.findComponent(GameRender).exists()).toBe(false);
+        });
+        it.todo('Renders the Start Menu');
+    });
+
+    it('Once the start button is pressed, it renders the game', () => {
+        wrapper.findComponent({ref: 'start-button'}).trigger('click');
+
+        expect(wrapper.findComponent(GameRender).exists()).toBe(true);
+    });
+
     it('Has a board', () => {
         expect(wrapper.findComponent(GameRender).findComponent({ref: 'game-board'}).exists()).toBe(true);
     });
