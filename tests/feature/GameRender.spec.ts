@@ -10,7 +10,7 @@ describe('Game Render', () => {
     })
 
     it('Has a board', () => {
-        expect(wrapper.findComponent(GameRender).findComponent({ref: 'game-board'}).exists()).toBe(true);
+        expect(wrapper.findComponent({ref: 'game-board'}).exists()).toBe(true);
     });
 
     it('Has 7 columns on the board', () => {
@@ -66,7 +66,7 @@ describe('Game Render', () => {
 
             expect(columns.at(0).findAllComponents({ref: 'red-piece'})).toHaveLength(4);
 
-            const resetButton = wrapper.findComponent(GameRender).findComponent({ref: 'reset'});
+            const resetButton = wrapper.findComponent({ref: 'reset'});
             resetButton.trigger('click');
             await wrapper.vm.$nextTick();
 
@@ -89,9 +89,9 @@ describe('Game Render', () => {
                 columns.at(0).trigger('click');
                 await wrapper.vm.$nextTick();
             }
-            expect(wrapper.findComponent(GameRender).findComponent({ref: 'reset'}).exists()).toBe(false);
+            expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(false);
             await finishTheGame();
-            expect(wrapper.findComponent(GameRender).findComponent({ref: 'reset'}).exists()).toBe(true);
+            expect(wrapper.findComponent({ref: 'reset'}).exists()).toBe(true);
         });
     });
 
@@ -188,7 +188,7 @@ describe('Game Render', () => {
             }
             redColumn.trigger('click');
             await wrapper.vm.$nextTick();
-            wrapper.findComponent(GameRender).findComponent({ref: 'reset'}).trigger('click');
+            wrapper.findComponent({ref: 'reset'}).trigger('click');
             redColumn.trigger('click');
             await wrapper.vm.$nextTick();
             expect(redColumn.findAllComponents({ref: 'red-piece'})).toHaveLength(1);
